@@ -18,9 +18,10 @@ var dataLoaded = function (data, textStatus, jgXHR) {
 
 
 var map;
+var geocoder;
 var initMap = function () {
 
-
+    geocoder = new google.maps.Geocoder();
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 1,
         center: {lat: 0, lng: 0}
@@ -36,6 +37,18 @@ var initMap = function () {
         console.log("Volcanoes are awesome!")
         var location = $("#address").val();
         console.log(location);
+        geocoder.geocode( { 'address': location}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                map.setZoom(6);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
     })
 
 }
