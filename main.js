@@ -10,7 +10,6 @@ var dataLoaded = function (data, textStatus, jgXHR) {
             map: map,
             title: volcano.V_Name
         });
-        console.log(data.features[i].properties.V_Name);
     }
 
 
