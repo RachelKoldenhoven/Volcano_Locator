@@ -32,6 +32,11 @@ var initMap = function () {
         success: dataLoaded
     });
 
+    $("#button").click(function(){
+        console.log("Volcanoes are awesome!")
+        var location = $("#address").val();
+        console.log(location);
+    })
 
 }
 
