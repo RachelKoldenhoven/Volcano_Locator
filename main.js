@@ -1,10 +1,14 @@
 /**
  * Created by rachel on 11/1/2015.
  */
+
+var volcanoes = [];
+
 var dataLoaded = function (data, textStatus, jgXHR) {
     for (var i = 0; i < data.features.length; i++) {
         var volcano = data.features[i].properties;
         var myLatLng = {lat: volcano.Latitude, lng: volcano.Longitude};
+        volcanoes.push(myLatLng);
         var marker = new google.maps.Marker({
             position: myLatLng,
             map: map,
@@ -19,6 +23,7 @@ var dataLoaded = function (data, textStatus, jgXHR) {
 
 var map;
 var geocoder;
+
 var initMap = function () {
 
     geocoder = new google.maps.Geocoder();
@@ -34,11 +39,17 @@ var initMap = function () {
     });
 
     $("#button").click(function(){
-        console.log("Volcanoes are awesome!")
         var location = $("#address").val();
         console.log(location);
         geocoder.geocode( { 'address': location}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
+                var userLocation = results[0].geometry.location;
+                for (var i = 0; i<volcanoes.length; i++){
+                    var volcano = volcanoes[i];
+                    var volcanoLatLng = new google.maps.LatLng(volcano.lat, volcano.lng);
+                    var distance = google.maps.geometry.spherical.computeDistanceBetween (userLocation, volcanoLatLng);
+                    console.log(distance);
+                }
                 map.setCenter(results[0].geometry.location);
                 map.setZoom(6);
                 var marker = new google.maps.Marker({
