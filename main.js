@@ -5,7 +5,6 @@
 var volcanoes = [];
 
 var dataLoaded = function (data, textStatus, jgXHR) {
-    console.log(data);
     for (var i = 0; i < data.features.length; i++) {
         var volcano = data.features[i].properties;
         var myLatLng = {lat: volcano.Latitude, lng: volcano.Longitude, name: volcano.V_Name};
@@ -57,13 +56,15 @@ var initMap = function () {
                         closestVolcano =  volcanoes[i];
                     }
                 }
-                console.log(minDistance);
-                $("#VolcanoDistance").text(minDistance);
+                var displayDistance = Math.round(minDistance/1000);
+                console.log(displayDistance);
+                $("#VolcanoDistance").text(displayDistance + "Km");
                 console.log(closestVolcano);
                 $("#VolcanoName").text(closestVolcano.name);
                 map.setCenter(results[0].geometry.location);
                 map.setZoom(6);
                 var marker = new google.maps.Marker({
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
                     map: map,
                     position: results[0].geometry.location
                 });
